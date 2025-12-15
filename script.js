@@ -1,37 +1,37 @@
 // Initialize Lucide Icons
 lucide.createIcons();
 
-// --- FIXED: Updated Image Paths to match your .webp files ---
+// --- IMPORTANT: Ensure these filenames match your actual files EXACTLY (Case Sensitive!) ---
 const servicesData = {
     extensions: {
         title: 'Home Extensions',
         description: 'Complete masonry management for modern home extensions. We work from blueprint to topping out, ensuring structural integrity and a seamless aesthetic match with your existing building.',
-        image: 'images/image 2.webp' // Was extension.png
+        image: 'images/image 2.webp' 
     },
     facework: {
         title: 'Face Work',
         description: 'Specialized decorative face brickwork using Flemish, English, or modern Stretcher bonds. We source high-quality materials to provide striking visual finishes.',
-        image: 'images/image 3.webp' // Was face work.png
+        image: 'images/image 3.webp'
     },
     restoration: {
         title: 'Repointing',
         description: 'Restoring historic properties with traditional lime-mortar repointing and careful brick replacement to preserve architectural history.',
-        image: 'images/image 4.webp' // Was repointing.png
+        image: 'images/image 4.webp'
     },
     garden: {
         title: 'Garden Walls',
         description: 'Architectural garden walls, retaining structures, and luxury outdoor kitchens. Built to withstand the elements while enhancing your landscape.',
-        image: 'images/image 5.webp' // Was wall.png
+        image: 'images/image 5.webp'
     },
     commercial: {
         title: 'Commercial',
         description: 'High-capacity masonry solutions for commercial developments, industrial units, and public infrastructure across Birmingham.',
-        image: 'images/image 6.webp' // Was commercial.png
+        image: 'images/image 6.webp'
     },
     foundations: {
         title: 'Slab Work',
         description: 'Heavy-duty concrete slab work and foundation trenches. The essential starting point for every high-quality construction project.',
-        image: 'images/image 7.webp' // Was slab work.png
+        image: 'images/image 7.webp'
     }
 };
 
@@ -60,7 +60,6 @@ document.addEventListener('DOMContentLoaded', () => {
         mobileMenu.classList.toggle('hidden');
         mobileMenu.classList.toggle('flex');
         
-        // Toggle icon between menu and x
         if (mobileMenu.classList.contains('flex')) {
             mobileMenuBtn.innerHTML = '<i data-lucide="x" class="w-7 h-7"></i>';
         } else {
@@ -79,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Logo to Home / Smooth Scroll
+    // Logo to Home
     logo.addEventListener('click', (e) => {
         e.preventDefault();
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -92,13 +91,10 @@ document.addEventListener('DOMContentLoaded', () => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('active');
-                
-                // Handle staggered delays from data attributes if present
                 const delay = entry.target.getAttribute('data-delay');
                 if (delay) {
                     entry.target.style.transitionDelay = `${delay}ms`;
                 }
-                
                 observer.unobserve(entry.target);
             }
         });
@@ -116,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalCta = document.getElementById('modal-cta');
     const modalContentContainer = document.getElementById('modal-content-container');
     const serviceCards = document.querySelectorAll('.service-card');
-    const galleryItems = document.querySelectorAll('.gallery-item'); // Grab gallery items
+    const galleryItems = document.querySelectorAll('.gallery-item');
 
     // Helper: Show Modal
     const showModal = () => {
@@ -134,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
         modalContentContainer.classList.add('scale-95');
         setTimeout(() => {
             modal.classList.add('hidden');
-        }, 300); // Match transition duration
+        }, 300);
         document.body.classList.remove('no-scroll');
     };
 
@@ -147,25 +143,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
             document.getElementById('modal-title').textContent = data.title;
             document.getElementById('modal-desc').textContent = data.description;
-            document.getElementById('modal-image').src = data.image; // Uses updated path
+            // Ensure this path matches your repo exactly
+            document.getElementById('modal-image').src = data.image; 
             
             showModal();
         });
     });
 
-    // 2. Gallery Items Click Listener
+    // 2. Gallery Items Click Listener (UPDATED TO BE ROBUST)
     galleryItems.forEach(item => {
         item.addEventListener('click', () => {
-            // Find the image inside the clicked box
             const img = item.querySelector('img');
-            
             if (img) {
-                const src = img.getAttribute('src'); // Get the source exactly as written in HTML
+                // UPDATE: using img.src gets the full HTTP URL that is already working in the browser
+                const src = img.src; 
                 const alt = img.alt;
 
-                // Populate Modal with Image info
                 document.getElementById('modal-title').textContent = alt || 'Portfolio Project';
-                document.getElementById('modal-desc').textContent = "Expert masonry execution. Browse our portfolio to see the quality of our bond work and finishing. Contact us for similar projects.";
+                document.getElementById('modal-desc').textContent = "Expert masonry execution. Browse our portfolio to see the quality of our bond work and finishing.";
                 document.getElementById('modal-image').src = src;
 
                 showModal();
@@ -177,17 +172,11 @@ document.addEventListener('DOMContentLoaded', () => {
     closeModalBtn.addEventListener('click', closeModal);
     modalCta.addEventListener('click', closeModal); 
     
-    // Close on backdrop click
     modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            closeModal();
-        }
+        if (e.target === modal) closeModal();
     });
 
-    // Escape key to close
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-            closeModal();
-        }
+        if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal();
     });
 });
