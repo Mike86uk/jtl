@@ -1,37 +1,37 @@
 // Initialize Lucide Icons
 lucide.createIcons();
 
-// Service Data
+// --- FIXED: Updated Image Paths to match your .webp files ---
 const servicesData = {
     extensions: {
         title: 'Home Extensions',
         description: 'Complete masonry management for modern home extensions. We work from blueprint to topping out, ensuring structural integrity and a seamless aesthetic match with your existing building.',
-        image: 'images/extension.png'
+        image: 'images/image 2.webp' // Was extension.png
     },
     facework: {
         title: 'Face Work',
         description: 'Specialized decorative face brickwork using Flemish, English, or modern Stretcher bonds. We source high-quality materials to provide striking visual finishes.',
-        image: 'images/face work.png'
+        image: 'images/image 3.webp' // Was face work.png
     },
     restoration: {
         title: 'Repointing',
         description: 'Restoring historic properties with traditional lime-mortar repointing and careful brick replacement to preserve architectural history.',
-        image: 'images/repointing.png'
+        image: 'images/image 4.webp' // Was repointing.png
     },
     garden: {
         title: 'Garden Walls',
         description: 'Architectural garden walls, retaining structures, and luxury outdoor kitchens. Built to withstand the elements while enhancing your landscape.',
-        image: 'images/wall.png'
+        image: 'images/image 5.webp' // Was wall.png
     },
     commercial: {
         title: 'Commercial',
         description: 'High-capacity masonry solutions for commercial developments, industrial units, and public infrastructure across Birmingham.',
-        image: 'images/commercial.png'
+        image: 'images/image 6.webp' // Was commercial.png
     },
     foundations: {
         title: 'Slab Work',
         description: 'Heavy-duty concrete slab work and foundation trenches. The essential starting point for every high-quality construction project.',
-        image: 'images/slab work.png'
+        image: 'images/image 7.webp' // Was slab work.png
     }
 };
 
@@ -116,25 +116,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalCta = document.getElementById('modal-cta');
     const modalContentContainer = document.getElementById('modal-content-container');
     const serviceCards = document.querySelectorAll('.service-card');
+    const galleryItems = document.querySelectorAll('.gallery-item'); // Grab gallery items
 
-    const openModal = (serviceId) => {
-        const data = servicesData[serviceId];
-        if (!data) return;
-
-        document.getElementById('modal-title').textContent = data.title;
-        document.getElementById('modal-desc').textContent = data.description;
-        document.getElementById('modal-image').src = data.image;
-        
+    // Helper: Show Modal
+    const showModal = () => {
         modal.classList.remove('hidden');
-        // Small timeout to allow display:block to apply before opacity transition
         setTimeout(() => {
             modal.classList.remove('opacity-0');
             modalContentContainer.classList.remove('scale-95');
         }, 10);
-        
         document.body.classList.add('no-scroll');
     };
 
+    // Helper: Close Modal
     const closeModal = () => {
         modal.classList.add('opacity-0');
         modalContentContainer.classList.add('scale-95');
@@ -144,15 +138,44 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.remove('no-scroll');
     };
 
+    // 1. Service Cards Click Listener
     serviceCards.forEach(card => {
         card.addEventListener('click', () => {
             const id = card.getAttribute('data-id');
-            openModal(id);
+            const data = servicesData[id];
+            if (!data) return;
+
+            document.getElementById('modal-title').textContent = data.title;
+            document.getElementById('modal-desc').textContent = data.description;
+            document.getElementById('modal-image').src = data.image; // Uses updated path
+            
+            showModal();
         });
     });
 
+    // 2. Gallery Items Click Listener
+    galleryItems.forEach(item => {
+        item.addEventListener('click', () => {
+            // Find the image inside the clicked box
+            const img = item.querySelector('img');
+            
+            if (img) {
+                const src = img.getAttribute('src'); // Get the source exactly as written in HTML
+                const alt = img.alt;
+
+                // Populate Modal with Image info
+                document.getElementById('modal-title').textContent = alt || 'Portfolio Project';
+                document.getElementById('modal-desc').textContent = "Expert masonry execution. Browse our portfolio to see the quality of our bond work and finishing. Contact us for similar projects.";
+                document.getElementById('modal-image').src = src;
+
+                showModal();
+            }
+        });
+    });
+
+    // Modal Close Triggers
     closeModalBtn.addEventListener('click', closeModal);
-    modalCta.addEventListener('click', closeModal); // Close when clicking CTA to go to contact
+    modalCta.addEventListener('click', closeModal); 
     
     // Close on backdrop click
     modal.addEventListener('click', (e) => {
