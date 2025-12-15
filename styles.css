@@ -1,0 +1,42 @@
+/* Custom text outline effect */
+.text-outline {
+    -webkit-text-stroke: 1px #FAF9F6;
+    color: transparent;
+}
+
+/* Hide scrollbar when modal is open */
+body.no-scroll {
+    overflow: hidden;
+}
+
+/* Reveal Animation */
+.reveal {
+    opacity: 0;
+    transform: translateY(3rem);
+    transition: all 1s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Staggered delays using data attributes or classes can be handled here or in inline styles via JS, 
+   but for static CSS support: */
+.reveal.delay-200 { transition-delay: 200ms; }
+.reveal.delay-400 { transition-delay: 400ms; }
+
+/* Custom Scrollbar for Webkit */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #0F0F0F;
+}
+::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #C14C33;
+}
